@@ -136,6 +136,7 @@ resource "aws_ssm_parameter" "mq_master_username_ssm" {
   lifecycle {
     prevent_destroy       = false 
     create_before_destroy = true  
+    ignore_changes = [value]
   }
 }
 
@@ -152,6 +153,7 @@ resource "aws_ssm_parameter" "mq_master_password_ssm" {
   lifecycle {
     prevent_destroy       = false 
     create_before_destroy = true
+    ignore_changes = [value]
   }
 }
 resource "aws_ssm_parameter" "mq_application_username_ssm" {
@@ -168,6 +170,7 @@ resource "aws_ssm_parameter" "mq_application_username_ssm" {
   lifecycle {
     prevent_destroy       = false 
     create_before_destroy = true
+    ignore_changes = [value]
   }
 }
 
@@ -186,7 +189,9 @@ resource "aws_ssm_parameter" "mq_application_password_ssm" {
   lifecycle {
     prevent_destroy       = false 
     create_before_destroy = true
+    ignore_changes = [value]
   }
+   depends_on = [aws_ssm_parameter.mq_application_username_ssm]
 }
 
 

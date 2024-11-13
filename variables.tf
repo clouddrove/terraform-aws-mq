@@ -279,7 +279,7 @@ variable "allowed_ingress_ports" {
 variable "alias" {
   description = "The alias name for the KMS key"
   type        = string
-  default     = "update" 
+  default     = "" 
 }
 
 # List of additional security group IDs to associate with the broker
@@ -314,7 +314,7 @@ variable "mq_broker_name" {
 variable "kms_key_arn" {
   description = "ARN of the AWS KMS key for encryption."
   type        = string
-  default     = ""
+  default     = "kms-test"
 }
 # Variable to allow bypassing the KMS policy lockout safety check
 variable "bypass_policy_lockout_safety_check" {
@@ -404,7 +404,7 @@ variable "cloudwatch_log_retention_days" {
 variable "use_secrets_manager" {
   description = "Flag to determine if Secrets Manager should be used for storing passwords."
   type        = bool
-  default     = false  # Set to true if you want to use Secrets Manager
+  default     = true  # Set to true if you want to use Secrets Manager
 }
 
 variable "secret_manager_key_prefix" {

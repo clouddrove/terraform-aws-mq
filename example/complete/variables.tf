@@ -207,7 +207,7 @@ variable "use_aws_owned_key" {
 variable "ssm_path" {
   description = "The first parameter to substitute in `ssm_parameter_name_format`"
   type        = string
-  default     = "/abc"
+  default     = "/test-ssm"
 }
 
 # Declare variable for kms_ssm_key_arn
@@ -219,5 +219,5 @@ variable "kms_ssm_key_arn" {
 variable "alias" {
   description = "The alias name for the KMS key"
   type        = string
-  default     = "update"
+  default     = "kms-demo"
 }
