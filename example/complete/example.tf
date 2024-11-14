@@ -94,7 +94,17 @@ module "public_subnet" {
       cidr_block  = "0.0.0.0/0"
     },
   ]
-}
+  private_inbound_acl_rules =[
+    {
+      rule_number = 100
+      rule_action = "deny"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+  ]
+} 
 
 # Define MQ Broker module
 module "mq_broker" {
