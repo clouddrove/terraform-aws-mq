@@ -31,16 +31,17 @@ badges:
 prerequesties:
   - name: Terraform
     url: https://learn.hashicorp.com/terraform/getting-started/install.html
-    version: ">= 1.10.0"
+    version: ">= 1.6.6"
   
 providers:
   - name: aws
     url: https://aws.amazon.com/
-    version: ">= 5.55.0"
+    version: ">= 5.31.0"
 
 # description of this project
 description: |-
-  Terraform module template to create new modules using this as baseline
+  Terraform module to deploy and manage Amazon MQ brokers (Apache ActiveMQ and RabbitMQ) on AWS. Amazon MQ is a fully managed message broker service that facilitates message-based communication between distributed applications. This module enables you to provision, configure, and manage message brokers, ensuring scalability, reliability, and ease of integration with other AWS services. Supports features like automatic failover, encryption, and monitoring to provide a robust messaging solution for your cloud applications.
+
 
 # How to use this project
 usage: |-
