@@ -5,13 +5,13 @@
 #
 
 # Name of this project
-name : Terraform Module Template
+name : Terraform Module Amazon-MQ
 
 # License of this project
 license: "APACHE"
 
 # Canonical GitHub repo
-github_repo: clouddrove/terraform-module-template
+github_repo: clouddrove/terraform-aws-mq
 
 # Badges to display
 badges:
