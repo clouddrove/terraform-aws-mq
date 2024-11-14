@@ -1,13 +1,11 @@
-<<<<<<< HEAD
 name: 'Create README.md file'
-=======
-name: readme workflow
->>>>>>> feat/amazon-mq
 on:
   push:
     branches:
       - master
-<<<<<<< HEAD
+    paths-ignore:
+      - 'README.md'
+  workflow_dispatch:
 
 jobs:
   readme:
@@ -30,12 +28,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-
       - name: 'pre-commit check errors'
         uses: pre-commit/action@v3.0.0
         continue-on-error: true
 
-      - name: 'pre-commit fix erros'
+      - name: 'pre-commit fix errors'
         uses: pre-commit/action@v3.0.0
         continue-on-error: true
 
@@ -54,17 +51,6 @@ jobs:
           fields: repo,author
           author_name: 'CloudDrove'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_TERRAFORM }} # required
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_TERRAFORM }}
         if: always()
-=======
-    paths-ignore:
-      - 'README.md'
-  workflow_dispatch:
-jobs:
-  readme:
-    uses: clouddrove/github-shared-workflows/.github/workflows/readme.yml@master
-    secrets:
-      TOKEN : ${{ secrets.GITHUB }}
-      SLACK_WEBHOOK_TERRAFORM: ${{ secrets.SLACK_WEBHOOK_TERRAFORM }}
->>>>>>> feat/amazon-mq

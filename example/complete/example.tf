@@ -87,7 +87,7 @@ module "public_subnet" {
   public_inbound_acl_rules = [
     {
       rule_number = 100
-      rule_action = "allow"
+      rule_action = "deny"
       from_port   = 5432
       to_port     = 5432
       protocol    = "tcp"
