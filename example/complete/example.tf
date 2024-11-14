@@ -43,6 +43,17 @@ module "security_group" {
       description = "Allow PostgreSQL traffic."
     }
   ]
+  new_sg_egress_rules_with_cidr_blocks = [
+    {
+      rule_count  = 1
+      from_port   = 443
+      protocol    = "tcp"
+      to_port     = 443
+      cidr_blocks = ["0.0.0.0/0"] # Allow only HTTPS outbound traffic
+      description = "Allow outbound HTTPS traffic."
+    }
+  ]
+
 
   ## EGRESS Rules
   # new_sg_egress_rules_with_cidr_blocks = [
@@ -55,24 +66,6 @@ module "security_group" {
   #     description = "Allow all outbound traffic."
   #   }
   # ]
-  new_sg_egress_rules_with_cidr_blocks = [
-    {
-      rule_count  = 1
-      from_port   = 80
-      protocol    = "tcp"
-      to_port     = 80
-      cidr_blocks = ["0.0.0.0/0"] # Allow only HTTP outbound
-      description = "Allow outbound HTTP traffic."
-    },
-    {
-      rule_count  = 1
-      from_port   = 443
-      protocol    = "tcp"
-      to_port     = 443
-      cidr_blocks = ["0.0.0.0/0"] # Allow only HTTPS outbound
-      description = "Allow outbound HTTPS traffic."
-    }
-  ]
 
 }
 
