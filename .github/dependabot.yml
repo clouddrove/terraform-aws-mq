@@ -12,57 +12,36 @@ updates:
       interval: "daily"
     open-pull-requests-limit: 3
     assignees:
-    - "clouddrove-ci"
-    reviewers:
-    - "approvers"
-
-  - package-ecosystem: "terraform" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    schedule:
-      interval: "weekly"
-    # Add assignees
-    assignees:
       - "clouddrove-ci"
-    # Add reviewer
     reviewers:
       - "approvers"
-    # Allow up to 3 open pull requests for pip dependencies
-    open-pull-requests-limit: 3
 
-  - package-ecosystem: "terraform" # See documentation for possible values
-<<<<<<< HEAD
-    directory: "/_example/basic" # Location of package manifests
-=======
-    directory: "/examples/basic" # Location of package manifests
->>>>>>> feat/amazon-mq
+  - package-ecosystem: "terraform"
+    directory: "/"
     schedule:
       interval: "weekly"
-    # Add assignees
     assignees:
       - "clouddrove-ci"
-    # Add reviewer
     reviewers:
       - "approvers"
-    # Allow up to 3 open pull requests for pip dependencies
     open-pull-requests-limit: 3
 
-  - package-ecosystem: "terraform" # See documentation for possible values
-<<<<<<< HEAD
-    directory: "/_example/complete" # Location of package manifests
-=======
-    directory: "/examples/complete" # Location of package manifests
->>>>>>> feat/amazon-mq
+  - package-ecosystem: "terraform"
+    directory: "/examples/basic"
     schedule:
       interval: "weekly"
-    # Add assignees
     assignees:
       - "clouddrove-ci"
-    # Add reviewer
     reviewers:
       - "approvers"
-    # Allow up to 3 open pull requests for pip dependencies
-<<<<<<< HEAD
     open-pull-requests-limit: 3
-=======
+
+  - package-ecosystem: "terraform"
+    directory: "/examples/complete"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "clouddrove-ci"
+    reviewers:
+      - "approvers"
     open-pull-requests-limit: 3
->>>>>>> feat/amazon-mq
