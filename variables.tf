@@ -1,4 +1,3 @@
-
 # ------------------------------------------------------------------------------
 # Variables
 # ------------------------------------------------------------------------------
@@ -7,6 +6,7 @@ variable "label_order" {
   default     = ["name", "environment"]
   description = "Label order, e.g. `name`,`environment`."
 }
+
 # AWS Region where the broker will be deployed
 variable "aws_region" {
   description = "The AWS region to deploy resources."
@@ -138,12 +138,14 @@ variable "mq_application_password" {
   sensitive   = true
   default     = ""
 }
+
 # Declare the variable for the application user
 variable "mq_application_user" {
   description = "Username for the MQ application user"
   type        = string
   default     = "test" # Leave default as empty string or set your own default
 }
+
 # Apply changes immediately or during the next maintenance window
 variable "apply_immediately" {
   description = "Specifies whether any cluster modifications are applied immediately, or during the next maintenance window."
@@ -221,8 +223,6 @@ variable "ssm_path" {
   default     = "/myapp"
 }
 
-
-
 # SSM parameter name for Admin username
 variable "mq_admin_user_ssm_parameter_name" {
   description = "SSM parameter name for Admin username."
@@ -285,6 +285,7 @@ variable "allowed_ingress_ports" {
   type        = list(number)
   default     = []
 }
+
 variable "alias" {
   description = "The alias name for the KMS key"
   type        = string
@@ -325,6 +326,7 @@ variable "kms_key_arn" {
   type        = string
   default     = "kms-test"
 }
+
 # Variable to allow bypassing the KMS policy lockout safety check
 variable "bypass_policy_lockout_safety_check" {
   description = "Flag to bypass KMS policy lockout safety check."
@@ -380,6 +382,7 @@ variable "description" {
   type        = string
   default     = "Default KMS Key"
 }
+
 # Key Usage for KMS Key
 variable "key_usage" {
   description = "Specifies the intended use of the KMS key (ENCRYPT_DECRYPT, GENERATE_VERIFY_MAC, etc.)."
@@ -393,6 +396,7 @@ variable "enabled" {
   type        = bool
   default     = true # Default to true if you want to enable by default
 }
+
 variable "enable_cloudwatch_logs" {
   description = "Enable CloudWatch logs for MQ broker"
   type        = bool
@@ -410,6 +414,7 @@ variable "cloudwatch_log_retention_days" {
   type        = number
   default     = 7 # Retain logs for 7 days
 }
+
 variable "use_secrets_manager" {
   description = "Flag to determine if Secrets Manager should be used for storing passwords."
   type        = bool
@@ -439,9 +444,15 @@ variable "secret_manager_key_prefix" {
 #   type        = map(string)
 #   default     = {}
 # }
+
 variable "security_group_id" {
   description = "Security group ID to associate with the MQ broker"
   type        = list(any)
   default     = [""] # Default to an empty string, not an empty list
+}
 
+variable "use_hardcoded_values" {
+  description = "Flag to decide whether to use hardcoded credentials or not."
+  type        = bool
+  default     = false  # Set to `true` if you want hardcoded values to be used by default
 }

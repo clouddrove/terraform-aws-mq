@@ -1,40 +1,32 @@
-
 # ------------------------------------------------------------------------------
 # Resources
 # ------------------------------------------------------------------------------
 locals {
   label_order = var.label_order
 }
+
 # Fetch existing SSM Parameters for MQ Application and Admin users
 data "aws_ssm_parameter" "mq_application_username" {
-  count = var.mq_application_user_ssm_parameter_name != "" ? 1 : 0
+  count = var.mq_application_user_ssm_parameter_name != "" && var.use_secrets_manager ? 1 : 0
   name  = var.mq_application_user_ssm_parameter_name
 }
 
 data "aws_ssm_parameter" "mq_application_password" {
-  count = var.mq_application_password_ssm_parameter_name != "" ? 1 : 0
+  count = var.mq_application_password_ssm_parameter_name != "" && var.use_secrets_manager ? 1 : 0
   name  = var.mq_application_password_ssm_parameter_name
 }
 
 data "aws_ssm_parameter" "mq_master_username" {
-  count = var.mq_admin_user_ssm_parameter_name != "" ? 1 : 0
+  count = var.mq_admin_user_ssm_parameter_name != "" && var.use_secrets_manager ? 1 : 0
   name  = var.mq_admin_user_ssm_parameter_name
 }
 
 data "aws_ssm_parameter" "mq_master_password" {
-  count = var.mq_admin_password_ssm_parameter_name != "" ? 1 : 0
+  count = var.mq_admin_password_ssm_parameter_name != "" && var.use_secrets_manager ? 1 : 0
   name  = var.mq_admin_password_ssm_parameter_name
 }
-# module "security_group" {
-#   source      = "clouddrove/security-group/aws"
-#   version     = "2.0.0"
 
-#   name        = local.name
-#   environment = local.environment
-#   vpc_id      = module.vpc.vpc_id 
-# }
-
-# Call the Clouddrove KMS module to  create the KMS key if enabled
+# Call the Clouddrove KMS module to create the KMS key if enabled
 module "kms" {
   source      = "clouddrove/kms/aws"
   enabled     = var.kms_key_enabled
@@ -60,9 +52,7 @@ module "kms" {
   })
 }
 
-
 # Store Secrets in Secrets Manager or fallback to SSM based on flag
-# Secrets Manager for Admin User
 resource "aws_secretsmanager_secret" "mq_master_username_secret" {
   count       = var.use_secrets_manager && var.mq_admin_user != "" ? 1 : 0
   name        = "${var.secret_manager_key_prefix}/admin/username"
@@ -126,29 +116,23 @@ resource "aws_secretsmanager_secret_version" "mq_application_password_version" {
   })
 }
 
+# Fallback to SSM if not using Secrets Manager
 resource "aws_ssm_parameter" "mq_master_username_ssm" {
-  count = var.mq_admin_user != "" ? 1 : 0
+  count = var.mq_admin_user != "" && !var.use_secrets_manager ? 1 : 0
 
-  # Fix double slashes and leading/trailing slashes
-  name = format("%s%s",
-    replace(trimspace(var.ssm_path), "/$", ""), # Remove trailing slash from ssm_path
+  name        = format("%s%s",
+    replace(trimspace(var.ssm_path), "/$", ""),
     var.mq_admin_user_ssm_parameter_name
   )
-
   value       = var.mq_admin_user != "" ? var.mq_admin_user : "default_admin_user"
   description = "MQ Username for the admin user"
   type        = "String"
   tags        = var.tags
   overwrite   = true
-  lifecycle {
-    prevent_destroy       = false
-    create_before_destroy = true
-    ignore_changes        = [value]
-  }
 }
 
 resource "aws_ssm_parameter" "mq_master_password_ssm" {
-  count = var.mq_admin_password != "" ? 1 : 0
+  count = var.mq_admin_password != "" && !var.use_secrets_manager ? 1 : 0
 
   name        = "kms-alias"
   value       = var.mq_admin_password != "" ? var.mq_admin_password : "default_password"
@@ -157,14 +141,10 @@ resource "aws_ssm_parameter" "mq_master_password_ssm" {
   key_id      = module.kms.key_id
   tags        = var.tags
   overwrite   = true
-  lifecycle {
-    prevent_destroy       = false
-    create_before_destroy = true
-    ignore_changes        = [value]
-  }
 }
+
 resource "aws_ssm_parameter" "mq_application_username_ssm" {
-  count = var.mq_application_user != "" ? 1 : 0
+  count = var.mq_application_user != "" && !var.use_secrets_manager ? 1 : 0
   name = format("%s%s",
     replace(coalesce(var.ssm_path, ""), "/$", ""),
     var.mq_application_user_ssm_parameter_name
@@ -174,15 +154,10 @@ resource "aws_ssm_parameter" "mq_application_username_ssm" {
   type        = "String"
   tags        = var.tags
   overwrite   = true
-  lifecycle {
-    prevent_destroy       = false
-    create_before_destroy = true
-    ignore_changes        = [value]
-  }
 }
 
 resource "aws_ssm_parameter" "mq_application_password_ssm" {
-  count = var.mq_application_password != "" ? 1 : 0
+  count = var.mq_application_password != "" && !var.use_secrets_manager ? 1 : 0
   name = format("%s%s",
     replace(coalesce(var.ssm_path, ""), "/$", ""),
     var.mq_application_password_ssm_parameter_name
@@ -193,14 +168,7 @@ resource "aws_ssm_parameter" "mq_application_password_ssm" {
   key_id      = module.kms.key_id
   tags        = var.tags
   overwrite   = true
-  lifecycle {
-    prevent_destroy       = false
-    create_before_destroy = true
-    ignore_changes        = [value]
-  }
-  depends_on = [aws_ssm_parameter.mq_application_username_ssm]
 }
-
 
 # Create CloudWatch Log Group for MQ Logs (if enabled)
 resource "aws_cloudwatch_log_group" "mq_logs" {
@@ -223,8 +191,7 @@ resource "aws_mq_broker" "default" {
   publicly_accessible        = var.publicly_accessible
   subnet_ids                 = var.subnet_ids
   tags                       = var.tags
-  # security_groups            = [module.security_group.security_group_id]
-  security_groups = var.security_group_id
+  security_groups            = var.security_group_id
 
   # Encryption options - Use AWS-owned KMS key or a custom key
   dynamic "encryption_options" {
@@ -255,34 +222,25 @@ resource "aws_mq_broker" "default" {
       username = length(var.mq_admin_user) > 0 ? (
         var.use_secrets_manager ? (
           length(aws_secretsmanager_secret.mq_master_username_secret) > 0 ? jsondecode(aws_secretsmanager_secret_version.mq_master_username_version[0].secret_string).username : "default_admin_user"
-          ) : (
-          length(data.aws_ssm_parameter.mq_master_username) > 0 ? data.aws_ssm_parameter.mq_master_username[0].value : "default_admin_user"
-        )
-        ) : (
+        ) : var.mq_admin_user
+      ) : (
         var.use_secrets_manager ? (
           length(aws_secretsmanager_secret.mq_application_username_secret) > 0 ? jsondecode(aws_secretsmanager_secret_version.mq_application_username_version[0].secret_string).username : "default_application_user"
-          ) : (
-          length(data.aws_ssm_parameter.mq_application_username) > 0 ? data.aws_ssm_parameter.mq_application_username[0].value : "default_application_user"
-        )
+        ) : var.mq_application_user
       )
 
       password = length(var.mq_admin_password) > 0 ? (
         var.use_secrets_manager ? (
           length(aws_secretsmanager_secret.mq_master_password_secret) > 0 ? jsondecode(aws_secretsmanager_secret_version.mq_master_password_version[0].secret_string).password : "Admin12345678!"
-          ) : (
-          length(data.aws_ssm_parameter.mq_master_password) > 0 ? data.aws_ssm_parameter.mq_master_password[0].value : "Admin12345678!"
-        )
-        ) : (
+        ) : var.mq_admin_password
+      ) : (
         var.use_secrets_manager ? (
           length(aws_secretsmanager_secret.mq_application_password_secret) > 0 ? jsondecode(aws_secretsmanager_secret_version.mq_application_password_version[0].secret_string).password : "App12345678!"
-          ) : (
-          length(data.aws_ssm_parameter.mq_application_password) > 0 ? data.aws_ssm_parameter.mq_application_password[0].value : "App12345678!"
-        )
+        ) : var.mq_application_password
       )
 
       groups         = var.mq_admin_groups
       console_access = var.console_access
     }
   }
-
 }

@@ -221,3 +221,34 @@ variable "alias" {
   type        = string
   default     = "kms-demo"
 }
+# CloudWatch Logs settings
+variable "enable_cloudwatch_logs" {
+  description = "Enable CloudWatch logs for MQ broker"
+  type        = bool
+  default     = true  # Default to true to enable CloudWatch logs
+}
+
+variable "cloudwatch_log_group_name" {
+  description = "The name of the CloudWatch log group"
+  type        = string
+  default     = "/aws/mq/logs"  # Default log group name
+}
+
+variable "cloudwatch_log_retention_days" {
+  description = "The retention period (in days) for CloudWatch logs"
+  type        = number
+  default     = 7  # Default retention period for logs in days
+}
+
+# Secrets Manager configuration
+variable "use_secrets_manager" {
+  description = "Flag to determine if Secrets Manager should be used for storing passwords."
+  type        = bool
+  default     = true  # Default to true, to use Secrets Manager
+}
+
+variable "secret_manager_key_prefix" {
+  description = "Prefix for Secrets Manager key names."
+  type        = string
+  default     = "mq"  # Default key prefix for Secrets Manager
+}
