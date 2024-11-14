@@ -129,6 +129,12 @@ resource "aws_ssm_parameter" "mq_master_username_ssm" {
   type        = "String"
   tags        = var.tags
   overwrite   = true
+  lifecycle {
+    prevent_destroy       = false
+    create_before_destroy = true
+    ignore_changes        = [value]
+  }
+  depends_on = [aws_ssm_parameter.mq_application_username_ssm]
 }
 
 resource "aws_ssm_parameter" "mq_master_password_ssm" {
@@ -141,6 +147,12 @@ resource "aws_ssm_parameter" "mq_master_password_ssm" {
   key_id      = module.kms.key_id
   tags        = var.tags
   overwrite   = true
+  lifecycle {
+    prevent_destroy       = false
+    create_before_destroy = true
+    ignore_changes        = [value]
+  }
+  depends_on = [aws_ssm_parameter.mq_application_username_ssm]
 }
 
 resource "aws_ssm_parameter" "mq_application_username_ssm" {
@@ -154,6 +166,12 @@ resource "aws_ssm_parameter" "mq_application_username_ssm" {
   type        = "String"
   tags        = var.tags
   overwrite   = true
+  lifecycle {
+    prevent_destroy       = false
+    create_before_destroy = true
+    ignore_changes        = [value]
+  }
+  depends_on = [aws_ssm_parameter.mq_application_username_ssm]
 }
 
 resource "aws_ssm_parameter" "mq_application_password_ssm" {
@@ -168,6 +186,12 @@ resource "aws_ssm_parameter" "mq_application_password_ssm" {
   key_id      = module.kms.key_id
   tags        = var.tags
   overwrite   = true
+  lifecycle {
+    prevent_destroy       = false
+    create_before_destroy = true
+    ignore_changes        = [value]
+  }
+  depends_on = [aws_ssm_parameter.mq_application_username_ssm]
 }
 
 # Create CloudWatch Log Group for MQ Logs (if enabled)
@@ -243,4 +267,11 @@ resource "aws_mq_broker" "default" {
       console_access = var.console_access
     }
   }
+  lifecycle {
+    prevent_destroy       = false
+    create_before_destroy = true
+    ignore_changes        = [value]
+  }
+
+  depends_on = [aws_ssm_parameter.mq_application_username_ssm, aws_ssm_parameter.mq_master_username_ssm]
 }
