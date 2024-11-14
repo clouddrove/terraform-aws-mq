@@ -49,7 +49,7 @@ module "security_group" {
       from_port   = 0
       protocol    = "-1"
       to_port     = 0
-      cidr_blocks = [module.vpc.vpc_cidr_block] 
+      cidr_blocks = [module.vpc.vpc_cidr_block]
       description = "Allow all outbound traffic within the VPC."
     }
   ]
