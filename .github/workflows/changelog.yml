@@ -8,13 +8,6 @@ on:
 jobs:
   changelog:
     uses: clouddrove/github-shared-workflows/.github/workflows/changelog.yml@master
-<<<<<<< HEAD
     secrets: inherit
     with:
       branch: 'master'
-=======
-
-    secrets: inherit
-    with:
-      branch: 'master'
->>>>>>> feat/amazon-mq

@@ -72,41 +72,6 @@ module "security_group" {
 
 
 # Define Subnet module
-# module "public_subnet" {
-#   source             = "clouddrove/subnet/aws"
-#   version            = "2.0.1"
-#   name               = "public-subnet"
-#   environment        = local.environment
-#   label_order        = local.label_order
-#   availability_zones = ["us-west-1b", "us-west-1c"]
-#   vpc_id             = module.vpc.vpc_id
-#   cidr_block         = module.vpc.vpc_cidr_block
-#   type               = "public"
-#   igw_id             = module.vpc.igw_id
-#   ipv6_cidr_block    = module.vpc.ipv6_cidr_block
-#   public_inbound_acl_rules = [
-#     {
-#       rule_number = 100
-#       rule_action = "deny"
-#       from_port   = 5432
-#       to_port     = 5432
-#       protocol    = "tcp"
-#       cidr_block  = "10.0.1.0/24"
-#     },
-#   ]
-#   private_inbound_acl_rules = [
-#     {
-#       rule_number = 100
-#       rule_action = "deny"
-#       from_port   = 0
-#       to_port     = 0
-#       protocol    = "-1"
-#       cidr_block  = "10.0.2.0/24"
-#     },
-#   ]
-# }
-
-
 module "public_subnet" {
   source             = "clouddrove/subnet/aws"
   version            = "2.0.1"
@@ -119,8 +84,6 @@ module "public_subnet" {
   type               = "public"
   igw_id             = module.vpc.igw_id
   ipv6_cidr_block    = module.vpc.ipv6_cidr_block
-
-  # Define specific inbound ACL rules for public subnet
   public_inbound_acl_rules = [
     {
       rule_number = 100
@@ -130,34 +93,16 @@ module "public_subnet" {
       protocol    = "tcp"
       cidr_block  = "10.0.1.0/24"
     },
-    {
-      rule_number = 110
-      rule_action = "allow"
-      from_port   = 80
-      to_port     = 80
-      protocol    = "tcp"
-      cidr_block  = "0.0.0.0/0" # Allow HTTP traffic from anywhere
-    },
-    {
-      rule_number = 120
-      rule_action = "allow"
-      from_port   = 443
-      to_port     = 443
-      protocol    = "tcp"
-      cidr_block  = "0.0.0.0/0" # Allow HTTPS traffic from anywhere
-    }
   ]
-
-  # Define specific private inbound ACL rules if needed, or omit if unnecessary
   private_inbound_acl_rules = [
     {
       rule_number = 100
       rule_action = "deny"
-      from_port   = 22
-      to_port     = 22
-      protocol    = "tcp"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
       cidr_block  = "10.0.2.0/24"
-    }
+    },
   ]
 }
 
