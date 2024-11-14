@@ -84,26 +84,26 @@ module "public_subnet" {
   type               = "public"
   igw_id             = module.vpc.igw_id
   ipv6_cidr_block    = module.vpc.ipv6_cidr_block
-  # public_inbound_acl_rules = [
-  #   {
-  #     rule_number = 100
-  #     rule_action = "deny"
-  #     from_port   = 5432
-  #     to_port     = 5432
-  #     protocol    = "tcp"
-  #     cidr_block  = "0.0.0.0/0"
-  #   },
-  # ]
-  # private_inbound_acl_rules = [
-  #   {
-  #     rule_number = 100
-  #     rule_action = "deny"
-  #     from_port   = 0
-  #     to_port     = 0
-  #     protocol    = "-1"
-  #     cidr_block  = "0.0.0.0/0"
-  #   },
-  # ]
+  public_inbound_acl_rules = [
+    {
+      rule_number = 100
+      rule_action = "deny"
+      from_port   = 5432
+      to_port     = 5432
+      protocol    = "tcp"
+      cidr_block  = "10.0.1.0/24"
+    },
+  ]
+  private_inbound_acl_rules = [
+    {
+      rule_number = 100
+      rule_action = "deny"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "10.0.2.0/24"
+    },
+  ]
 }
 
 # Define MQ Broker module
