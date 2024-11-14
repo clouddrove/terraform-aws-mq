@@ -132,13 +132,13 @@ variable "auto_minor_version_upgrade" {
 variable "new_sg" {
   description = "Whether to create a new security group"
   type        = bool
-  default     = true  # Ensure this is true if you want the security group created
+  default     = true # Ensure this is true if you want the security group created
 }
 
 variable "enable" {
   description = "Whether to enable security group"
   type        = bool
-  default     = true  # Ensure this is true if you want the security group to be enabled
+  default     = true # Ensure this is true if you want the security group to be enabled
 }
 
 

@@ -28,7 +28,7 @@ data "aws_ssm_parameter" "mq_master_password" {
 # module "security_group" {
 #   source      = "clouddrove/security-group/aws"
 #   version     = "2.0.0"
-  
+
 #   name        = local.name
 #   environment = local.environment
 #   vpc_id      = module.vpc.vpc_id 
@@ -141,15 +141,15 @@ resource "aws_ssm_parameter" "mq_master_username_ssm" {
   tags        = var.tags
   overwrite   = true
   lifecycle {
-    prevent_destroy       = false 
-    create_before_destroy = true  
-    ignore_changes = [value]
+    prevent_destroy       = false
+    create_before_destroy = true
+    ignore_changes        = [value]
   }
 }
 
 resource "aws_ssm_parameter" "mq_master_password_ssm" {
   count = var.mq_admin_password != "" ? 1 : 0
- 
+
   name        = "kms-alias"
   value       = var.mq_admin_password != "" ? var.mq_admin_password : "default_password"
   description = "MQ Password for the admin user"
@@ -158,15 +158,15 @@ resource "aws_ssm_parameter" "mq_master_password_ssm" {
   tags        = var.tags
   overwrite   = true
   lifecycle {
-    prevent_destroy       = false 
+    prevent_destroy       = false
     create_before_destroy = true
-    ignore_changes = [value]
+    ignore_changes        = [value]
   }
 }
 resource "aws_ssm_parameter" "mq_application_username_ssm" {
   count = var.mq_application_user != "" ? 1 : 0
   name = format("%s%s",
-    replace(coalesce(var.ssm_path, ""), "/$", ""), 
+    replace(coalesce(var.ssm_path, ""), "/$", ""),
     var.mq_application_user_ssm_parameter_name
   )
   value       = var.mq_application_user != "" ? var.mq_application_user : "default_application_user"
@@ -175,16 +175,16 @@ resource "aws_ssm_parameter" "mq_application_username_ssm" {
   tags        = var.tags
   overwrite   = true
   lifecycle {
-    prevent_destroy       = false 
+    prevent_destroy       = false
     create_before_destroy = true
-    ignore_changes = [value]
+    ignore_changes        = [value]
   }
 }
 
 resource "aws_ssm_parameter" "mq_application_password_ssm" {
   count = var.mq_application_password != "" ? 1 : 0
   name = format("%s%s",
-    replace(coalesce(var.ssm_path, ""), "/$", ""), 
+    replace(coalesce(var.ssm_path, ""), "/$", ""),
     var.mq_application_password_ssm_parameter_name
   )
   value       = var.mq_application_password != "" ? var.mq_application_password : "default_app_password"
@@ -194,11 +194,11 @@ resource "aws_ssm_parameter" "mq_application_password_ssm" {
   tags        = var.tags
   overwrite   = true
   lifecycle {
-    prevent_destroy       = false 
+    prevent_destroy       = false
     create_before_destroy = true
-    ignore_changes = [value]
+    ignore_changes        = [value]
   }
-   depends_on = [aws_ssm_parameter.mq_application_username_ssm]
+  depends_on = [aws_ssm_parameter.mq_application_username_ssm]
 }
 
 
@@ -225,7 +225,7 @@ resource "aws_mq_broker" "default" {
   tags                       = var.tags
   # security_groups            = [module.security_group.security_group_id]
   security_groups = var.security_group_id
-  
+
   # Encryption options - Use AWS-owned KMS key or a custom key
   dynamic "encryption_options" {
     for_each = var.encryption_enabled ? ["true"] : []

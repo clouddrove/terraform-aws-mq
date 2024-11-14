@@ -116,33 +116,33 @@ variable "ingress_cidr_blocks" {
 variable "mq_admin_user" {
   description = "Admin username for the MQ broker."
   type        = string
-  default     = "admin"  
+  default     = "admin"
 }
 
 variable "mq_admin_password" {
   description = "Admin password for the MQ broker."
   type        = string
   sensitive   = true
-  default     = ""  
+  default     = ""
 }
 
 variable "mq_application_username" {
   description = "Application username for the MQ broker."
   type        = string
-  default     = "demo"  
+  default     = "demo"
 }
 
 variable "mq_application_password" {
   description = "Application password for the MQ broker."
   type        = string
   sensitive   = true
-  default     = ""  
+  default     = ""
 }
 # Declare the variable for the application user
 variable "mq_application_user" {
   description = "Username for the MQ application user"
   type        = string
-  default     = "test"  # Leave default as empty string or set your own default
+  default     = "test" # Leave default as empty string or set your own default
 }
 # Apply changes immediately or during the next maintenance window
 variable "apply_immediately" {
@@ -288,7 +288,7 @@ variable "allowed_ingress_ports" {
 variable "alias" {
   description = "The alias name for the KMS key"
   type        = string
-  default     = "" 
+  default     = ""
 }
 
 # List of additional security group IDs to associate with the broker
@@ -302,7 +302,7 @@ variable "additional_security_group_ids" {
 variable "mq_admin_groups" {
   description = "List of groups the MQ admin user will belong to."
   type        = list(string)
-  default     = [] 
+  default     = []
 }
 
 # Whether the MQ admin user should have console access
@@ -384,14 +384,14 @@ variable "description" {
 variable "key_usage" {
   description = "Specifies the intended use of the KMS key (ENCRYPT_DECRYPT, GENERATE_VERIFY_MAC, etc.)."
   type        = string
-  default     = "ENCRYPT_DECRYPT"  # Common default for symmetric keys
+  default     = "ENCRYPT_DECRYPT" # Common default for symmetric keys
 }
 
 # Flag to enable or disable the resource
 variable "enabled" {
   description = "Flag to enable or disable the creation of the resource."
   type        = bool
-  default     = true  # Default to true if you want to enable by default
+  default     = true # Default to true if you want to enable by default
 }
 variable "enable_cloudwatch_logs" {
   description = "Enable CloudWatch logs for MQ broker"
@@ -408,18 +408,18 @@ variable "cloudwatch_log_group_name" {
 variable "cloudwatch_log_retention_days" {
   description = "The retention period (in days) for CloudWatch logs"
   type        = number
-  default     = 7  # Retain logs for 7 days
+  default     = 7 # Retain logs for 7 days
 }
 variable "use_secrets_manager" {
   description = "Flag to determine if Secrets Manager should be used for storing passwords."
   type        = bool
-  default     = true  # Set to true if you want to use Secrets Manager
+  default     = true # Set to true if you want to use Secrets Manager
 }
 
 variable "secret_manager_key_prefix" {
   description = "Prefix for Secrets Manager secret keys."
   type        = string
-  default     = "/aws/mq"  # Default value, adjust based on your use case
+  default     = "/aws/mq" # Default value, adjust based on your use case
 }
 
 # variable "general_log_enabled" {
@@ -441,7 +441,7 @@ variable "secret_manager_key_prefix" {
 # }
 variable "security_group_id" {
   description = "Security group ID to associate with the MQ broker"
-  type        = list
-  default     = [""]  # Default to an empty string, not an empty list
+  type        = list(any)
+  default     = [""] # Default to an empty string, not an empty list
 
 }
