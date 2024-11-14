@@ -12,9 +12,9 @@ output "label_order" {
 #   value = module.vpc.vpc_id
 # }
 
-output "subnet_ids" {
-  value = module.public_subnet.subnet_ids
-}
+# output "subnet_ids" {
+#   value = module.public_subnet.subnet_ids
+# }
 
 # output "security_group_ids" {
 #   value = module.security_group.security_group_id
