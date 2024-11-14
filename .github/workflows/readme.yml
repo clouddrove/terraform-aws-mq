@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 name: 'Create README.md file'
+=======
+name: readme workflow
+>>>>>>> feat/amazon-mq
 on:
   push:
     branches:
       - master
+<<<<<<< HEAD
 
 jobs:
   readme:
@@ -52,3 +57,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_TERRAFORM }} # required
         if: always()
+=======
+    paths-ignore:
+      - 'README.md'
+  workflow_dispatch:
+jobs:
+  readme:
+    uses: clouddrove/github-shared-workflows/.github/workflows/readme.yml@master
+    secrets:
+      TOKEN : ${{ secrets.GITHUB }}
+      SLACK_WEBHOOK_TERRAFORM: ${{ secrets.SLACK_WEBHOOK_TERRAFORM }}
+>>>>>>> feat/amazon-mq
