@@ -31,12 +31,12 @@ badges:
 prerequesties:
   - name: Terraform
     url: https://learn.hashicorp.com/terraform/getting-started/install.html
-    version: ">= 1.10.0"
+    version: ">= 1.6.6"
   
 providers:
   - name: aws
     url: https://aws.amazon.com/
-    version: ">= 5.55.0"
+    version: ">= 5.31.0"
 
 # description of this project
 description: |-
