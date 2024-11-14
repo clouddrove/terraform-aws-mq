@@ -284,5 +284,5 @@ resource "aws_mq_broker" "default" {
       console_access = var.console_access
     }
   }
->>>>>>> feat/amazon-mq
+
 }
