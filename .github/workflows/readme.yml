@@ -1,8 +1,11 @@
 name: 'Create README.md file'
 on:
-  push:
-    branches:
-      - master
+  # push:
+    # branches:
+    #   - master
+    # paths-ignore:
+    #   - 'README.md'
+  workflow_dispatch:
 
 jobs:
   readme:
@@ -25,12 +28,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-
       - name: 'pre-commit check errors'
         uses: pre-commit/action@v3.0.0
         continue-on-error: true
 
-      - name: 'pre-commit fix erros'
+      - name: 'pre-commit fix errors'
         uses: pre-commit/action@v3.0.0
         continue-on-error: true
 
@@ -49,6 +51,6 @@ jobs:
           fields: repo,author
           author_name: 'CloudDrove'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_TERRAFORM }} # required
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_TERRAFORM }}
         if: always()
