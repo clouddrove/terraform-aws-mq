@@ -196,6 +196,14 @@ variable "maintenance_day_of_week" {
   default     = "Sunday" # Example default value, modify based on your need
 }
 
+variable "use_hardcoded_values" {
+  description = "Flag to decide whether to use hardcoded credentials or not."
+  type        = bool
+  default     = true  # Set to `true` if you want hardcoded values to be used by default
+}
+
+
+
 # Declare variable for use_aws_owned_key
 variable "use_aws_owned_key" {
   description = "Boolean flag to use AWS owned KMS key for MQ encryption."
@@ -244,7 +252,11 @@ variable "cloudwatch_log_retention_days" {
 variable "use_secrets_manager" {
   description = "Flag to determine if Secrets Manager should be used for storing passwords."
   type        = bool
-  default     = true  # Default to true, to use Secrets Manager
+
+  default     = false  # Default to true, to use Secrets Manager
+
+  # default     = true  # Default to true, to use Secrets Manager
+
 }
 
 variable "secret_manager_key_prefix" {

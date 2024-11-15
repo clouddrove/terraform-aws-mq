@@ -119,7 +119,6 @@ resource "aws_secretsmanager_secret_version" "mq_application_password_version" {
 # Fallback to SSM if not using Secrets Manager
 resource "aws_ssm_parameter" "mq_master_username_ssm" {
   count = var.mq_admin_user != "" && !var.use_secrets_manager ? 1 : 0
-
   name        = format("%s%s",
     replace(trimspace(var.ssm_path), "/$", ""),
     var.mq_admin_user_ssm_parameter_name
@@ -139,7 +138,6 @@ resource "aws_ssm_parameter" "mq_master_username_ssm" {
 
 resource "aws_ssm_parameter" "mq_master_password_ssm" {
   count = var.mq_admin_password != "" && !var.use_secrets_manager ? 1 : 0
-
   name        = "kms-alias"
   value       = var.mq_admin_password != "" ? var.mq_admin_password : "default_password"
   description = "MQ Password for the admin user"
@@ -267,11 +265,14 @@ resource "aws_mq_broker" "default" {
       console_access = var.console_access
     }
   }
+
   lifecycle {
     prevent_destroy       = false
     create_before_destroy = true
-    ignore_changes        = [value]
   }
 
-  depends_on = [aws_ssm_parameter.mq_application_username_ssm, aws_ssm_parameter.mq_master_username_ssm]
+  depends_on = [
+    aws_ssm_parameter.mq_application_username_ssm,
+    aws_ssm_parameter.mq_master_username_ssm
+  ]
 }
