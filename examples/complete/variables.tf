@@ -252,3 +252,20 @@ variable "secret_manager_key_prefix" {
   type        = string
   default     = "mq"  # Default key prefix for Secrets Manager
 }
+variable "attributes" {
+  description = "List of attributes to be used in SSM path"
+  type        = list(string)
+  default     = ["default_value"]  # Provide a default value (a non-empty list)
+}
+
+variable "maintenance_time_of_day" {
+  description = "The time of day for the maintenance window (e.g., 02:00)."
+  type        = string
+  default     = "02:00"  # Set a default value, or leave it blank if required
+}
+
+variable "maintenance_time_zone" {
+  description = "The time zone for the maintenance window (e.g., UTC, America/New_York)."
+  type        = string
+  default     = "UTC"  # Set a default value, or leave it blank if required
+}
