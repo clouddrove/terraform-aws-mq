@@ -418,7 +418,7 @@ variable "cloudwatch_log_retention_days" {
 variable "use_secrets_manager" {
   description = "Flag to determine if Secrets Manager should be used for storing passwords."
   type        = bool
-  default     = true # Set to true if you want to use Secrets Manager
+  default     = false # Set to true if you want to use Secrets Manager
 }
 
 variable "secret_manager_key_prefix" {
@@ -454,5 +454,5 @@ variable "security_group_id" {
 variable "use_hardcoded_values" {
   description = "Flag to decide whether to use hardcoded credentials or not."
   type        = bool
-  default     = false  # Set to `true` if you want hardcoded values to be used by default
+  default     = true  # Set to `true` if you want hardcoded values to be used by default
 }
