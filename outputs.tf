@@ -1,29 +1,104 @@
-# ------------------------------------------------------------------------------
-# Outputs
-# ------------------------------------------------------------------------------
-output "label_order" {
-  value       = local.label_order
-  description = "Label order."
-}
-
-# If you want to add more outputs related to VPC, Subnet, and Security Groups, you can uncomment and customize as needed.
-
-# output "vpc_id" {
-#   value = module.vpc.vpc_id
+# output "broker_id" {
+#   value       = join("", aws_mq_broker.default.*.id)
+#   description = "AmazonMQ broker ID"
 # }
 
-# output "subnet_ids" {
-#   value = module.public_subnet.subnet_ids
+# output "broker_arn" {
+#   value       = join("", aws_mq_broker.default.*.arn)
+#   description = "AmazonMQ broker ARN"
 # }
 
-# output "security_group_ids" {
-#   value = module.security_group.security_group_id
+# output "primary_console_url" {
+#   value       = try(aws_mq_broker.default[0].instances[0].console_url, "")
+#   description = "AmazonMQ active web console URL"
 # }
 
-# output "vpc_cidr_block" {
-#   value = aws_vpc.this.cidr_block
+# output "primary_ssl_endpoint" {
+#   value       = try(aws_mq_broker.default[0].instances[0].endpoints[0], "")
+#   description = "AmazonMQ primary SSL endpoint"
 # }
 
-# output "subnet_id" {
-#   value = aws_subnet.this.id
+# output "primary_amqp_ssl_endpoint" {
+#   value       = try(aws_mq_broker.default[0].instances[0].endpoints[1], "")
+#   description = "AmazonMQ primary AMQP+SSL endpoint"
+# }
+
+# output "primary_stomp_ssl_endpoint" {
+#   value       = try(aws_mq_broker.default[0].instances[0].endpoints[2], "")
+#   description = "AmazonMQ primary STOMP+SSL endpoint"
+# }
+
+# output "primary_mqtt_ssl_endpoint" {
+#   value       = try(aws_mq_broker.default[0].instances[0].endpoints[3], "")
+#   description = "AmazonMQ primary MQTT+SSL endpoint"
+# }
+
+# output "primary_wss_endpoint" {
+#   value       = try(aws_mq_broker.default[0].instances[0].endpoints[4], "")
+#   description = "AmazonMQ primary WSS endpoint"
+# }
+
+# output "primary_ip_address" {
+#   value       = try(aws_mq_broker.default[0].instances[0].ip_address, "")
+#   description = "AmazonMQ primary IP address"
+# }
+
+# output "secondary_console_url" {
+#   value       = try(aws_mq_broker.default[0].instances[1].console_url, "")
+#   description = "AmazonMQ secondary web console URL"
+# }
+
+# output "secondary_ssl_endpoint" {
+#   value       = try(aws_mq_broker.default[0].instances[1].endpoints[0], "")
+#   description = "AmazonMQ secondary SSL endpoint"
+# }
+
+# output "secondary_amqp_ssl_endpoint" {
+#   value       = try(aws_mq_broker.default[0].instances[1].endpoints[1], "")
+#   description = "AmazonMQ secondary AMQP+SSL endpoint"
+# }
+
+# output "secondary_stomp_ssl_endpoint" {
+#   value       = try(aws_mq_broker.default[0].instances[1].endpoints[2], "")
+#   description = "AmazonMQ secondary STOMP+SSL endpoint"
+# }
+
+# output "secondary_mqtt_ssl_endpoint" {
+#   value       = try(aws_mq_broker.default[0].instances[1].endpoints[3], "")
+#   description = "AmazonMQ secondary MQTT+SSL endpoint"
+# }
+
+# output "secondary_wss_endpoint" {
+#   value       = try(aws_mq_broker.default[0].instances[1].endpoints[4], "")
+#   description = "AmazonMQ secondary WSS endpoint"
+# }
+
+# output "secondary_ip_address" {
+#   value       = try(aws_mq_broker.default[0].instances[1].ip_address, "")
+#   description = "AmazonMQ secondary IP address"
+# }
+
+# output "admin_username" {
+#   value       = local.mq_admin_user
+#   description = "AmazonMQ admin username"
+# }
+
+# output "application_username" {
+#   value       = local.mq_application_user
+#   description = "AmazonMQ application username"
+# }
+
+# output "security_group_id" {
+#   value       = module.security_group.id
+#   description = "The ID of the created security group"
+# }
+
+# output "security_group_arn" {
+#   value       = module.security_group.arn
+#   description = "The ARN of the created security group"
+# }
+
+# output "security_group_name" {
+#   value       = module.security_group.name
+#   description = "The name of the created security group"
 # }
