@@ -1,19 +1,19 @@
 locals {
-  enabled = var.enabled  # Directly use the variable 'enabled'
+  enabled = var.enabled # Directly use the variable 'enabled'
 
   # Admin user enabled if the engine type is ActiveMQ and no user is provided
-  mq_admin_user_enabled  = local.enabled && var.engine_type == "ActiveMQ"
-  mq_admin_user_needed   = local.mq_admin_user_enabled && length(var.mq_admin_user) == 0
-  mq_admin_user          = local.mq_admin_user_needed ? "" : try(var.mq_admin_user, "")
+  mq_admin_user_enabled = local.enabled && var.engine_type == "ActiveMQ"
+  mq_admin_user_needed  = local.mq_admin_user_enabled && length(var.mq_admin_user) == 0
+  mq_admin_user         = local.mq_admin_user_needed ? "" : try(var.mq_admin_user, "")
 
-  mq_admin_password_needed  = local.mq_admin_user_enabled && length(var.mq_admin_password) == 0
-  mq_admin_password         = local.mq_admin_password_needed ? "" : try(var.mq_admin_password, "")
+  mq_admin_password_needed = local.mq_admin_user_enabled && length(var.mq_admin_password) == 0
+  mq_admin_password        = local.mq_admin_password_needed ? "" : try(var.mq_admin_password, "")
 
   # Logs configuration
   mq_logs = {
     logs = {
       "general_log_enabled" : var.general_log_enabled,
-      "audit_log_enabled"   : var.audit_log_enabled
+      "audit_log_enabled" : var.audit_log_enabled
     }
   }
 
@@ -64,8 +64,8 @@ resource "aws_mq_broker" "default" {
 
   # Ensure at least one user block is always present
   user {
-    username       = var.mq_admin_user != "" ? var.mq_admin_user : "default_admin"  # Fallback to "default_admin"
-    password       = var.mq_admin_password != "" ? var.mq_admin_password : "default_password"  # Fallback to "default_password"
+    username       = var.mq_admin_user != "" ? var.mq_admin_user : "default_admin"            # Fallback to "default_admin"
+    password       = var.mq_admin_password != "" ? var.mq_admin_password : "default_password" # Fallback to "default_password"
     groups         = ["admin"]
     console_access = true
   }

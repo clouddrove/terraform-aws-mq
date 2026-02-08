@@ -23,7 +23,7 @@ variable "security_group_id" {
 variable "additional_security_group_ids" {
   description = "List of additional security group IDs to associate with the broker"
   type        = list(string)
-  default     = []  # You can provide a default or leave it empty
+  default     = [] # You can provide a default or leave it empty
 }
 
 variable "engine_type" {
