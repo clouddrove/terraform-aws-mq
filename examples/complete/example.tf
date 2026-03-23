@@ -53,7 +53,7 @@ module "security_group" {
 # Define Subnet module
 module "public_subnet" {
   source             = "clouddrove/subnet/aws"
-  version            = "2.0.1"
+  version            = "2.0.2"
   name               = "public-subnet"
   environment        = local.environment
   label_order        = local.label_order
