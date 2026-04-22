@@ -11,7 +11,7 @@ locals {
 # Define VPC module
 module "vpc" {
   source      = "clouddrove/vpc/aws"
-  version     = "2.0.0"
+  version     = "2.0.1"
   name        = local.name
   environment = local.environment
   cidr_block  = "10.0.0.0/16"
