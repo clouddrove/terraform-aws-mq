@@ -16,5 +16,6 @@ terraform {
 
   provider_meta "aws" {
     user_agent = ["github.com/clouddrove/terraform-aws-mq"]
-}
+  }
 
+}
